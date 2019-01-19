@@ -13,6 +13,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         case "newTab":
             newT();
             break;
+        case "greet":
+            greet();
+            break;    
+
     }
 });
     
@@ -34,6 +38,10 @@ function backwd(){
 
 function newT(){
     window.open("https://www.google.com");
+}
+
+function greet(){
+    window.open("front.html",);
 }
 // // var video = null;
 // // var canvas = null;
