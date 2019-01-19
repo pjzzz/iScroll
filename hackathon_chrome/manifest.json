@@ -1,22 +1,30 @@
 {
-    "manifest_version" : 2,
-    "name" : "I-Scroll",
-    "version" : "1.0",
+    "manifest_version": 2,
+
+    "name": "iScroll",
+    "version": "2.0",
+
     "description" : "A quick way to recognise gestures.",
     "icons" : {
         "128" : "icon128.png",
         "48" : "icon64.png",
         "16" : "icon16.png"
     },
-    "browser_action":{
-        "default_popup":"popup.html"
-    },
-    "background" : {
-        "scripts" :["popup.js"],
+    
+    "background": {
+        "scripts": ["background.js"],
         "persistent": false
     },
-    "permissions" : [
-        "tabs",
-        "contextMenus"
-    ]
+
+    "browser_action": {
+        "default_title": "iScroll",
+        "default_popup": "browser-action/popup.html"
+    },
+
+    "content_scripts": [{
+        "matches": ["https://en.wikipedia.org/*"],
+        "js": ["jquery/jquery.min.js", "content-script.js"]
+    }],
+
+    "permissions": ["tabs", "<all_urls>"]
 }
