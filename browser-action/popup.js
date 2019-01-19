@@ -35,14 +35,19 @@ window.onload = function() {
         });
     }
 
-    document.getElementById("backBtn").onclick = function f() {
+    document.getElementById("backBtn").onclick = function g() {
         chrome.extension.sendMessage({
             type: "Back"
         });
     }
-    document.getElementById("newTabBtn").onclick = function f() {
+    document.getElementById("newTabBtn").onclick = function h() {
         chrome.extension.sendMessage({
             type: "newTab"
+        });
+    }
+    document.getElementById("greet").onclick = function i() {
+        chrome.extension.sendMessage({
+            type: "greet"
         });
     }
 }
