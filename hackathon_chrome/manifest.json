@@ -1,0 +1,22 @@
+{
+    "manifest_version" : 2,
+    "name" : "I-Scroll",
+    "version" : "1.0",
+    "description" : "A quick way to recognise gestures.",
+    "icons" : {
+        "128" : "icon128.png",
+        "48" : "icon64.png",
+        "16" : "icon16.png"
+    },
+    "browser_action":{
+        "default_popup":"popup.html"
+    },
+    "background" : {
+        "scripts" :["popup.js"],
+        "persistent": false
+    },
+    "permissions" : [
+        "tabs",
+        "contextMenus"
+    ]
+}
