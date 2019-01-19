@@ -23,15 +23,26 @@ window.onload = function() {
         });
     }
 
-    // document.getElementById("zoomInBtn").onclick = function e() {
-    //     chrome.extension.sendMessage({
-    //         type: "zoom-in"
-    //     });
-    // }
+    document.getElementById("zoomInBtn").onclick = function e() {
+        chrome.extension.sendMessage({
+            type: "zoom-in"
+        });
+    }
 
-    // document.getElementById("zoomOutBtn").onclick = function f() {
-    //     chrome.extension.sendMessage({
-    //         type: "zoom-out"
-    //     });
-    // }
+    document.getElementById("zoomOutBtn").onclick = function f() {
+        chrome.extension.sendMessage({
+            type: "zoom-out"
+        });
+    }
+
+    document.getElementById("backBtn").onclick = function f() {
+        chrome.extension.sendMessage({
+            type: "Back"
+        });
+    }
+    document.getElementById("newTabBtn").onclick = function f() {
+        chrome.extension.sendMessage({
+            type: "newTab"
+        });
+    }
 }

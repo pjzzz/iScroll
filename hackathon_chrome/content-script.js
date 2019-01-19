@@ -1,4 +1,5 @@
-chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
+console.log('Extension running!!');
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     switch (message.type) {
         case "Scroll-Down":
             scrollDown();
@@ -6,9 +7,15 @@ chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
         case "Scroll-Up":
             scrollUp();
             break;
+        case "Back":
+            backwd();
+            break;
+        case "newTab":
+            newT();
+            break;
     }
 });
-
+    
 function scrollDown() {
     $("html, body").animate({
         scrollTop: $(document).scrollTop() + window.innerHeight - 100
@@ -21,7 +28,13 @@ function scrollUp() {
     }, 400);
 }
 
+function backwd(){
+    window.history.back();
+}
 
+function newT(){
+    window.open("https://www.google.com");
+}
 // // var video = null;
 // // var canvas = null;
 // // var ctx = null;

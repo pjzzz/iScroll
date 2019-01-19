@@ -10,17 +10,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 function routeMessage(messageType) {
     switch (messageType) {
-        case "openWS":
-            openConnection();
-            break;
-        case "closeWS":
-            closeConnection();
-            break;
-        // case "zoom-in":
-        //     zoomIn();
+        // case "openWS":
+        //     openConnection();
         //     break;
-        // case "zoom-out":
-        //     zoomOut();
+        // case "closeWS":
+        //     closeConnection();
+        //     break;
+        case "zoom-in":
+            zoomIn();
+            break;
+        case "zoom-out":
+            zoomOut();
+            break;
+      
+        //     break;
+        // case "next-Tab":
+        //     nextTab();
         //     break;
         default:
             chrome.tabs.getSelected(null, function(tab) {
@@ -30,21 +35,22 @@ function routeMessage(messageType) {
     }
 }
 
-// function zoomIn() {
-//     chrome.tabs.getSelected(null, function(tab) {
-//         chrome.tabs.getZoom(tab.id, function(zoomFactor) {
-//             chrome.tabs.setZoom(tab.id, zoomFactor + 0.2);
-//         });
-//     });
-// }
+function zoomIn() {
+    console.log('zoom in');
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.getZoom(tab.id, function(zoomFactor) {
+            chrome.tabs.setZoom(tab.id, zoomFactor + 0.2);
+        });
+    });
+}
 
-// function zoomOut() {
-//     chrome.tabs.getSelected(null, function(tab) {
-//         chrome.tabs.getZoom(tab.id, function(zoomFactor) {
-//             chrome.tabs.setZoom(tab.id, zoomFactor - 0.2);
-//         });
-//     });
-// }
+function zoomOut() {
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.getZoom(tab.id, function(zoomFactor) {
+            chrome.tabs.setZoom(tab.id, zoomFactor - 0.2);
+        });
+    });
+}
 
 // var ws = null;
 
