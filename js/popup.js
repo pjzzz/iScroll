@@ -130,7 +130,7 @@ function startp() {
     setTimeout(processVideo, 0);
     //gray.delete();mask.delete();low.delete();high.delete();
 }
-/*
+
 function startfr() {
 
     //starting camera
@@ -182,7 +182,7 @@ function startfr() {
     }
     setTimeout(processVideo, 0);
 }
-*/
+
 function onOpenCvReady() {
     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
     startp();
@@ -192,3 +192,4 @@ function onOpenCvReady() {
 function scrolll(yy){
     window.scrollBy(0,yy);
 }
+
