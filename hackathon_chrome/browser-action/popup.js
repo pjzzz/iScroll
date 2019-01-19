@@ -1,15 +1,15 @@
 window.onload = function() {
-    document.getElementById("openWSBtn").onclick = function a() {
-        chrome.runtime.sendMessage({
-            type: "openWS"
-        });
-    }
+    // document.getElementById("openWSBtn").onclick = function a() {
+    //     chrome.runtime.sendMessage({
+    //         type: "openWS"
+    //     });
+    // }
 
-    document.getElementById("closeWSBtn").onclick = function b() {
-        chrome.runtime.sendMessage({
-            type: "closeWS"
-        }); 
-    }
+    // document.getElementById("closeWSBtn").onclick = function b() {
+    //     chrome.runtime.sendMessage({
+    //         type: "closeWS"
+    //     }); 
+    // }
 
     document.getElementById("scrollDownBtn").onclick = function c() {
         chrome.runtime.sendMessage({

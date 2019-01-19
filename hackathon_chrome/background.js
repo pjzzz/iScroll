@@ -46,40 +46,40 @@ function routeMessage(messageType) {
 //     });
 // }
 
-var ws = null;
+// var ws = null;
 
-function closeConnection() {
-    if (ws)
-        ws.close();
-}
+// function closeConnection() {
+//     if (ws)
+//         ws.close();
+// }
 
-function openConnection() {
-    closeConnection();
-    var url = "ws://localhost:9001";
-    ws = new WebSocket(url);
-    ws.onopen = onOpen;
-    ws.onclose = onClose;
-    ws.onmessage = onMessage;
-    ws.onerror = onError;
-}
+// function openConnection() {
+//     closeConnection();
+//     var url = "ws://localhost:9001";
+//     ws = new WebSocket(url);
+//     ws.onopen = onOpen;
+//     ws.onclose = onClose;
+//     ws.onmessage = onMessage;
+//     ws.onerror = onError;
+// }
 
-function onOpen() {
-    console.log("Websocket connected.");
-}
+// function onOpen() {
+//     console.log("Websocket connected.");
+// }
 
-function onClose() {
-    console.log("Websocket disconnected.");
-    ws = null;
-}
+// function onClose() {
+//     console.log("Websocket disconnected.");
+//     ws = null;
+// }
 
 function onMessage(event) {
     console.log(event);
     routeMessage(event.data);
 }
 
-function onError(event) {
-    alert("Websocket error.");
-}
+// function onError(event) {
+//     alert("Websocket error.");
+// }
 
 // function sendSnapshotToServer(snapshot) {
 //     if (ws)
