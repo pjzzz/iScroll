@@ -29,7 +29,7 @@ function addElement(){
     newCanv.setAttribute("id","canvas");
     newCanv.setAttribute("width", "320");
     newCanv.setAttribute("height", "240");
-    newDiv.setAttribute("class", "invisible");
+    newCanv.setAttribute("class", "invisible");
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 2");
@@ -39,7 +39,7 @@ function addElement(){
     newCanv.setAttribute("id", "canvasOutput");
     newCanv.setAttribute("width", "320");
     newCanv.setAttribute("height", "240");  
-    newDiv.setAttribute("class", "invisible");
+    newCanv.setAttribute("class", "invisible");
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 3");
