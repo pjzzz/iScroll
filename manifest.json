@@ -22,6 +22,9 @@
     },
 
     "content_scripts": [{
+        "css": [
+            "styles.css"
+        ],
         "js": ["jquery/jquery.min.js","opencv.js", "content-script.js"],
         "matches": ["<all_urls>"]
     }],

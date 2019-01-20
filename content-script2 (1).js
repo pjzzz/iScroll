@@ -2,32 +2,30 @@ console.log('Extension running!!');
 //document.body.onload = addElement;
 let video;
 
-function wait(ms){
+function wait(ms) {
     var start = new Date().getTime();
     var end = start;
-    while(end < start + ms){
+    while (end < start + ms) {
         end = new Date().getTime();
-        console.log(end-start);
+        console.log(end - start);
     }
 }
 
-function addElement(){
+function addElement() {
     var newDiv = document.createElement("video");
     // and give it some content 
     var newContent = document.createTextNode("video is here!!");
     // add the text node to the newly created div
     newDiv.appendChild(newContent);
-    newDiv.setAttribute("id","video");
+    newDiv.setAttribute("id", "video");
     // add the newly created element and its content into the DOM 
     var currentDiv = document.getElementsByTagName("div").lastChild;
-    document.body.insertBefore(newDiv, currentDiv); 
+    document.body.insertBefore(newDiv, currentDiv);
     console.log("element created");
     //video = document.getElementsByTagName("video");
     var newCanv = document.createElement("canvas");
     //newContent = document.createTextNode("video is here!!");
-    newCanv.setAttribute("id","canvas");
-    newCanv.setAttribute("width", "320");
-    newCanv.setAttribute("height", "240");
+    newCanv.setAttribute("id", "canvas");
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 2");
@@ -35,15 +33,13 @@ function addElement(){
     var newCanv = document.createElement("canvas");
     //newContent = document.createTextNode("video is here!!");
     newCanv.setAttribute("id", "canvasOutput");
-    newCanv.setAttribute("width", "320");
-    newCanv.setAttribute("height", "240");  
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 3");
-    //setTimeout(myFunction, 3000);
-    /* function myFunction() {
+    setTimeout(myFunction, 3000);
+    function myFunction() {
         //alert('Hello');
-    } */
+    }
 }
 addElement();
 var width = 320;
@@ -83,7 +79,7 @@ function startp() {
     let mask = new cv.Mat(height, width, cv.CV_8UC1);
     let dilated = new cv.Mat(height, width, cv.CV_8UC1);
 
-    let fgmask = new cv.Mat(video.height, video.width, cv.CV_8UC1);
+    let fgmask = new cv.Mat(height, width, cv.CV_8UC1);
     let fgbg = new cv.BackgroundSubtractorMOG2(500, 16, true);
 
     let ksize = new cv.Size(3, 3); //kernel size for guassian blur;
@@ -145,73 +141,27 @@ function startp() {
         let pointmid = new cv.Point(rect.x + rect.width, rect.y + rect.height / 2);
         let area = rect.width * rect.height;
 
-        /* let xx = pointmid.x - prevmp.x;
-        let yy = pointmid.y - prevmp.y; */
         let xx = pointmid.x - prevmp.x;
         let yy = pointmid.y - prevmp.y;
         if (area != 0) {
-            //console.log(xx+" "+yy+" fcount="+f_count);
+            console.log(xx + " " + yy + " fcount=" + f_count);
             prevmp = pointmid;
-            trackX.push(pointmid.x);
-            trackY.push(pointmid.y);
+            trackX.push(xx);
+            trackY.push(yy);
             sumy += yy;
-            sumx += xx;
             f_count++;
             if (f_count == 8) {
-                let theta;
-                if (Math.abs(trackX[7] - trackX[0]) >= 0.001) {
-                    theta = Math.atan(Math.abs((trackY[7] - trackY[0]) / (trackX[7] - trackX[0])));
-                } else {
-                    theta = 10;
-                }
-
-
-                if (theta > 0.785) {
-                    //console.log("theta: " + theta);
-                    scroll_amount = sumy / f_count;
-                    if (Math.abs(sumy) >= 120) {
-                        scrolll(40 * scroll_amount);
-                    }
-                    else {
-                        scrolll(35 * scroll_amount);
-                    }
-
-                    f_count = 0;
-                    trackX = [];
-                    trackY = [];
-                    sumy = 0;
-                    sumx = 0;
-
-                } else {
-                    if (sumx >= 220) {
-                        sumx = 0;
-                        console.log("Left!")
-                        //wait(500);
-                    } else if (sumx <= -220) {
-                        sumx = 0;
-                        console.log("Right!")
-                        window.open("https://google.co.in")
-                        //wait(500);
-                    }
-                    f_count = 0;
-                    trackX = [];
-                    trackY = [];
-                    sumy = 0;
-
-                }
+                scroll_amount = sumy / f_count;
+                scrolll(15 * scroll_amount);
+                f_count = 0;
+                trackX = [];
+                trackY = [];
+                sumy = 0;
+                //setTimeout(function delayer(){},5000);
             }
-
         } else {
             //do nothing
         }
-
-        //}
-        //else{
-        //    prevmp = pointmid;
-        //    f_count=1;
-
-        //}
-
 
         //scrolll(yy);
         cv.rectangle(dst, point1, point2, rectangleColor, 2, cv.LINE_AA, 0);
@@ -283,13 +233,11 @@ function onOpenCvReady() {
     startp();
     //startfr();
 }
-
 document.getElementsByName("canvas").onload = startp();
-
 function scrolll(yy) {
     window.scrollBy(0, yy);
 }
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     switch (message.type) {
         case "Scroll-Down":
             scrollDown();
@@ -305,7 +253,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             break;
     }
 });
-    
+
 function scrollDown() {
     $("html, body").animate({
         scrollTop: $(document).scrollTop() + window.innerHeight - 100
@@ -318,11 +266,11 @@ function scrollUp() {
     }, 400);
 }
 
-function backwd(){
+function backwd() {
     window.history.back();
 }
 
-function newT(){
+function newT() {
     window.open("https://www.google.com");
 }
 // // var video = null;
