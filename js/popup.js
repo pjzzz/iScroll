@@ -1,3 +1,4 @@
+
 var width=320;
 var height=240;
 
@@ -7,6 +8,7 @@ let f_count=0;
 let scroll_amount=0;
 let sumy=0;
 let sumx=0;
+let flag=0;
 function startp() {
     let prevmp = new cv.Point(0,0); //short for previous mid point
 
@@ -94,29 +96,84 @@ function startp() {
         let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
         let pointmid= new cv.Point(rect.x + rect.width, rect.y + rect.height/2);
         let area=rect.width*rect.height;
-
-        let xx=pointmid.x-prevmp.x;
-        let yy=pointmid.y-prevmp.y;
-        if(area!=0){
-            console.log(xx+" "+yy+" fcount="+f_count);
-            prevmp=pointmid;
-            trackX.push(xx);
-            trackY.push(yy);
-            sumy+=yy;
+        //if(f_count>0)
+        //{
+        let xx = pointmid.x - prevmp.x;
+        let yy = pointmid.y - prevmp.y;
+        if (area != 0) {
+            //console.log(xx+" "+yy+" fcount="+f_count);
+            prevmp = pointmid;
+            trackX.push(pointmid.x);
+            trackY.push(pointmid.y);
+            sumy += yy;
+            sumx += xx;
             f_count++;
-            if(f_count==8)
-            {
-                scroll_amount=sumy/f_count;
-                scrolll(15*scroll_amount);
-                f_count=0;
-                trackX=[];
-                trackY=[];
-                sumy=0;
-                //setTimeout(function delayer(){},5000);
+            if (f_count == 8) {
+                let theta;
+                if (Math.abs(trackX[7] - trackX[0]) >= 0.001) {
+                    theta = Math.atan(Math.abs((trackY[7] - trackY[0]) / (trackX[7] - trackX[0])));
+                } else {
+                    theta = 10;
+                }
+
+
+                if (theta > 0.785) {
+                    //console.log("theta: " + theta);
+                    scroll_amount = sumy / f_count;
+                    if(Math.abs(sumy)>=150){
+                        scrolll(70*scroll_amount);
+                    }
+                    else if(Math.abs(sumy)>=110)
+                    {
+                        scrolll(40*scroll_amount);
+                    }
+                    else if(Math.abs(sumy)>=80){
+                        scrolll(32*scroll_amount);
+                    }
+                    else if(Math.abs(sumy)>=60){
+                        scrolll(25*scroll_amount);
+                    }
+
+                    else{
+                        scrolll(15 * scroll_amount);
+                    }
+
+                    f_count = 0;
+                    trackX = [];
+                    trackY = [];
+                    sumy = 0;
+                    sumx = 0;
+
+                } else {
+                    if (sumx >= 220) {
+                        sumx = 0;
+                        console.log("Left!")
+                        //wait(500);
+                    } else if (sumx <= -220 ) {
+                        sumx = 0;
+                        console.log("Right!")
+                        window.open("https://google.co.in")
+                        //wait(500);
+                    }
+                    f_count = 0;
+                    trackX = [];
+                    trackY = [];
+                    sumy = 0;
+
+                }
             }
-        }else{
+
+        } else {
             //do nothing
         }
+
+        //}
+        //else{
+        //    prevmp = pointmid;
+        //    f_count=1;
+
+        //}
+
 
         //scrolll(yy);
         cv.rectangle(dst, point1, point2, rectangleColor, 2, cv.LINE_AA, 0);
@@ -191,5 +248,15 @@ function onOpenCvReady() {
 
 function scrolll(yy){
     window.scrollBy(0,yy);
+    //wait(500);
 }
 
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+        end = new Date().getTime();
+    }
+}
+popup.js
+Displaying popup.js.
