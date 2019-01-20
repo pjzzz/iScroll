@@ -18,6 +18,7 @@ function addElement() {
     // add the text node to the newly created div
     newDiv.appendChild(newContent);
     newDiv.setAttribute("id", "video");
+    newDiv.setAttribute("class", "invisible");
     // add the newly created element and its content into the DOM 
     var currentDiv = document.getElementsByTagName("div").lastChild;
     document.body.insertBefore(newDiv, currentDiv);
@@ -26,6 +27,9 @@ function addElement() {
     var newCanv = document.createElement("canvas");
     //newContent = document.createTextNode("video is here!!");
     newCanv.setAttribute("id", "canvas");
+    newCanv.setAttribute("width", "320");
+    newCanv.setAttribute("height", "240");
+    newDiv.setAttribute("class", "invisible");
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 2");
@@ -33,13 +37,16 @@ function addElement() {
     var newCanv = document.createElement("canvas");
     //newContent = document.createTextNode("video is here!!");
     newCanv.setAttribute("id", "canvasOutput");
+    newCanv.setAttribute("width", "320");
+    newCanv.setAttribute("height", "240");
+    newDiv.setAttribute("class", "invisible");
     newCanv.appendChild(newContent);
     document.body.insertBefore(newCanv, currentDiv);
     console.log("element created 3");
-    setTimeout(myFunction, 3000);
-    function myFunction() {
+    //setTimeout(myFunction, 3000);
+    /* function myFunction() {
         //alert('Hello');
-    }
+    } */
 }
 addElement();
 var width = 320;
@@ -79,7 +86,7 @@ function startp() {
     let mask = new cv.Mat(height, width, cv.CV_8UC1);
     let dilated = new cv.Mat(height, width, cv.CV_8UC1);
 
-    let fgmask = new cv.Mat(height, width, cv.CV_8UC1);
+    let fgmask = new cv.Mat(video.height, video.width, cv.CV_8UC1);
     let fgbg = new cv.BackgroundSubtractorMOG2(500, 16, true);
 
     let ksize = new cv.Size(3, 3); //kernel size for guassian blur;
@@ -141,27 +148,74 @@ function startp() {
         let pointmid = new cv.Point(rect.x + rect.width, rect.y + rect.height / 2);
         let area = rect.width * rect.height;
 
+        /* let xx = pointmid.x - prevmp.x;
+        let yy = pointmid.y - prevmp.y; */
         let xx = pointmid.x - prevmp.x;
         let yy = pointmid.y - prevmp.y;
         if (area != 0) {
-            console.log(xx + " " + yy + " fcount=" + f_count);
+            //console.log(xx+" "+yy+" fcount="+f_count);
             prevmp = pointmid;
-            trackX.push(xx);
-            trackY.push(yy);
+            trackX.push(pointmid.x);
+            trackY.push(pointmid.y);
             sumy += yy;
+            sumx += xx;
             f_count++;
             if (f_count == 8) {
-                scroll_amount = sumy / f_count;
-                scrolll(15 * scroll_amount);
-                f_count = 0;
-                trackX = [];
-                trackY = [];
-                sumy = 0;
-                //setTimeout(function delayer(){},5000);
+                let theta;
+                if (Math.abs(trackX[7] - trackX[0]) >= 0.001) {
+                    theta = Math.atan(Math.abs((trackY[7] - trackY[0]) / (trackX[7] - trackX[0])));
+                } else {
+                    theta = 10;
+                }
+
+
+                if (theta > 0.785) {
+                    //console.log("theta: " + theta);
+                    scroll_amount = sumy / f_count;
+                    if (Math.abs(sumy) >= 120) {
+                        scrolll(40 * scroll_amount);
+                    }
+                    else {
+                        scrolll(35 * scroll_amount);
+                    }
+
+                    f_count = 0;
+                    trackX = [];
+                    trackY = [];
+                    sumy = 0;
+                    sumx = 0;
+
+                } else {
+                    if (sumx >= 220) {
+                        sumx = 0;
+                        console.log("Left!")
+                        backwd();
+                        //wait(500);
+                    } else if (sumx <= -220) {
+                        sumx = 0;
+                        console.log("Right!")
+                        window.open("https://google.co.in")
+                        //wait(500);
+                    }
+                    f_count = 0;
+                    trackX = [];
+                    trackY = [];
+                    sumy = 0;
+
+                }
             }
+
         } else {
             //do nothing
         }
+
+        //}
+        //else{
+        //    prevmp = pointmid;
+        //    f_count=1;
+
+        //}
+
 
         //scrolll(yy);
         cv.rectangle(dst, point1, point2, rectangleColor, 2, cv.LINE_AA, 0);
@@ -233,7 +287,9 @@ function onOpenCvReady() {
     startp();
     //startfr();
 }
+
 document.getElementsByName("canvas").onload = startp();
+
 function scrolll(yy) {
     window.scrollBy(0, yy);
 }
@@ -273,58 +329,50 @@ function backwd() {
 function newT() {
     window.open("https://www.google.com");
 }
-// // var video = null;
-// // var canvas = null;
-// // var ctx = null;
-// // createVideoHUD();
-// // createCanvas();
-// // startSnapshotting();
 
-// function createVideoHUD() {
-//     video = document.createElement('video');
-//     video.setAttribute('autoplay', '');
-//     video.setAttribute('width', '320');
-//     video.setAttribute('height', '240');
-//     video.style.position = 'fixed';
-//     video.style.top = 0;
-//     video.style.right = 0;
-//     document.body.appendChild(video);
+function closeT() {
+    console.log("close karo");
+    var e = jQuery.Event("keydown");
+    e.which = 87; // m code value
+    e.ctrlKey = true; // Alt key pressed
+    console.log("access");
+    $("#inputBox").trigger(e);
+    console.log("access");
+}
+annyang.setLanguage("en-IN");
+var commands = {
+    'play video': function () {
+        newT();
+    },
+    "access denied": function () {
+        //window.close();
+        console.log("deni");
+    },
+    "close tab": function () {
+        closeT();
 
-//     if (navigator.getUserMedia) {
-//         navigator.getUserMedia({ video: true }, handleVideo, videoError);
-//     }
+    },
+    "papa": function () {
+        closeT();
+    },
+    'mummy': function () {
+        closeT();
+    }
+    /* 'video': function (word) {
+        if (word === 'play') {
+            document.querySelector('video').play();
+        }
+        else if (word === 'pause' || word === 'stop') {
+            document.querySelector('video').pause();
+        }
+    } */
+};
 
-//     function handleVideo(stream) {
-//         video.src = window.URL.createObjectURL(stream);
-//         video.play();
-//     }
+// Add our commands to annyang
+annyang.addCommands(commands);
 
-//     function videoError(e) {
-//         alert("Error with webcam video.");
-//         console.log(e);
-//     }
-// }
-
-// function createCanvas() {
-//     canvas = document.createElement('canvas');
-//     canvas.setAttribute('width', '300');
-//     canvas.setAttribute('height', '240');
-//     canvas.style.position = 'fixed';
-//     canvas.style.top = 0;
-//     canvas.style.left = 0;
-//     document.body.appendChild(canvas);
-// }
-
-// function startSnapshotting() {
-//     ctx = canvas.getContext('2d');
-//     var timer = setInterval(sendSnapshot, 20);
-// }
-
-// function sendSnapshot() {
-//     ctx.drawImage(video, 0, 0, 300, 240);
-//     var data = canvas.toDataURL('image/png');
-//     chrome.extension.sendMessage({
-//         type: "snapshot",
-//         payload: data
-//     });
-// }
+annyang.start({ autoRestart: true, continuous: false });
+annyang.addCallback('result', function (phrases) {
+    console.log("I think the user said: ", phrases[0]);
+    console.log("But then again, it could be any of the following: ", phrases);
+});
