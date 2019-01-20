@@ -258,5 +258,3 @@ function wait(ms){
         end = new Date().getTime();
     }
 }
-popup.js
-Displaying popup.js.
