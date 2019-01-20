@@ -348,6 +348,24 @@ function closew() {
     $("#inputBox").trigger(e);
     console.log("access");
 }
+
+function zoomIn() {
+    console.log('zoom in');
+    chrome.tabs.getSelected(null, function (tab) {
+        chrome.tabs.getZoom(tab.id, function (zoomFactor) {
+            chrome.tabs.setZoom(tab.id, zoomFactor + 0.2);
+        });
+    });
+}
+
+function zoomOut() {
+    chrome.tabs.getSelected(null, function (tab) {
+        chrome.tabs.getZoom(tab.id, function (zoomFactor) {
+            chrome.tabs.setZoom(tab.id, zoomFactor - 0.2);
+        });
+    });
+}
+
 annyang.setLanguage("en-IN");
 var commands = {
     'play video': function () {
@@ -366,6 +384,12 @@ var commands = {
     },
     'mummy': function () {
         closew();
+    },
+    'zoom in': function () {
+        zoomIn();
+    },
+    'zoom out': function () {
+        zoomOut();
     }
     /* 'video': function (word) {
         if (word === 'play') {
