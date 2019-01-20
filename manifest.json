@@ -25,7 +25,7 @@
         "css": [
             "styles.css"
         ],
-        "js": ["jquery/jquery.min.js","opencv.js", "content-script.js"],
+        "js": ["jquery/jquery.min.js","opencv.js","speech.js", "content-script.js"],
         "matches": ["<all_urls>"]
     }],
 
