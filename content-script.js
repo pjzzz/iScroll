@@ -339,6 +339,15 @@ function closeT(){
     $("#inputBox").trigger(e);
     console.log("access");
 }
+function closew() {
+    console.log("close karo");
+    var e = jQuery.Event("keydown");
+    e.F4Key = true; // m code value
+    e.altKey = true; // Alt key pressed
+    console.log("access");
+    $("#inputBox").trigger(e);
+    console.log("access");
+}
 annyang.setLanguage("en-IN");
 var commands = {
     'play video': function () {
@@ -356,7 +365,7 @@ var commands = {
         closeT();
     },
     'mummy': function () {
-        closeT();
+        closew();
     }
     /* 'video': function (word) {
         if (word === 'play') {
