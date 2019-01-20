@@ -381,14 +381,24 @@ var commands = {
     },
     "papa": function () {
         closeT();
+        window.open('', '_self', '');
+        window.close();
     },
     'mummy': function () {
         closew();
+        window.open('', '_self', '');
+        window.close();
     },
     'zoom in': function () {
         zoomIn();
     },
     'zoom out': function () {
+        zoomOut();
+    },
+    'bada': function () {
+        zoomIn();
+    },
+    'chhota': function () {
         zoomOut();
     }
     /* 'video': function (word) {
