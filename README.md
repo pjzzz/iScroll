@@ -1,4 +1,11 @@
 # iScroll
+Problem statement 5:
+
+I-scroll: Create a tool that enables user to scroll web pages using hand gestures that are captured using web camera.
+Make code that could easily be integrated in any website, with taking proper permissions from user.
+Able to scroll, zoom, and toggle between the tabs using hand gestures.
+Making a chrome extension would get you a brownie points.   
+
 WittyHacks 2.0
 
 ----HOW TO INSTALL----
